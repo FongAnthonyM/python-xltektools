@@ -111,7 +111,7 @@ class BaseXLTEKContentsTableSchema(BaseTimeContentsTableSchema):
 
         # Correct registered entries
         registered = set()
-        for item, in await cls.get_all_async(session=session, as_python=False):
+        async for item in (await cls.get_all_async(session=session, as_python=False)).scalars():
             entry = await item.as_python_dict_async()
             full_path = path / entry["path"]
             file = cls.file_type.new_validated(full_path)
@@ -137,7 +137,7 @@ class BaseXLTEKContentsTableSchema(BaseTimeContentsTableSchema):
             else:
                 await cls.delete_item_async(session=session, item=item)
                 if full_path.exists():
-                    warn(f"Could open file: {full_path} could be corrupted.")
+                    warn(f"Could not open file: {full_path} could be corrupted.")
                     if delete_invalid:
                         warn(f"Attemping to delete: {full_path}")
                         try:

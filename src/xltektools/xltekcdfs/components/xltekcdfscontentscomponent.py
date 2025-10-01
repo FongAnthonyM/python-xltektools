@@ -47,6 +47,7 @@ class XLTEKCDFSContentsComponent(CDFSTimeContentsComponent):
         path: Path | None = None,
         session: Session | None = None,
         begin: bool = False,
+        **kwargs: Any,
     ) -> None:
         """Corrects the contents of the file.
 
@@ -58,13 +59,14 @@ class XLTEKCDFSContentsComponent(CDFSTimeContentsComponent):
         if path is None:
             path = self._composite().path
 
-        self.contents_table.correct_contents(session=session, path=path, begin=begin)
+        self.contents_table.correct_contents(session=session, path=path, begin=begin, **kwargs)
 
     async def correct_contents_async(
         self,
         path: Path | None = None,
         session: AsyncSession | None = None,
         begin: bool = False,
+        **kwargs: Any,
     ) -> None:
         """Asynchronously corrects the contents of the file.
 
@@ -76,7 +78,7 @@ class XLTEKCDFSContentsComponent(CDFSTimeContentsComponent):
         if path is None:
             path = self._composite().path
 
-        await self.contents_table.correct_contents_async(session=session, path=path, begin=begin)
+        await self.contents_table.correct_contents_async(session=session, path=path, begin=begin, **kwargs)
 
     def insert_file_contents(
         self,
