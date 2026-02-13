@@ -1,80 +1,190 @@
-[tool.poetry]
+# Project Configurations #
+[project]
+# Project Details
 name = "xltektools"
 version = "0.6.0"
-description = "xltektools"
-authors = ["Anthony Fong <fonganthonym@gmail.com>"]
+description = "A package to work with data from xltek files."
+readme = "README.rst"
+classifiers = ["Development Status :: 3 - Alpha"]
+
+# Staff
+authors = [{name = "Anthony Fong", email = ""}]
+maintainers = [{name = "Anthony Fong", email = ""}]
+
+# License
 license = "MIT"
-readme = "README.md"
-homepage = "https://github.com/fonganthonym/python-xltektools"
-repository = "https://github.com/fonganthonym/python-xltektools"
+license-files = ["LICENSE"]
+
+# Package Dependencies
+requires-python = ">=3.14"
+dependencies = [
+    "baseobjects>=1.12.0",
+    "hdf5objects>=0.5.0",
+    "cdfs>=0.3.0",
+    "mxbids>=0.2.1",
+    "numpy >=1.21.2",
+    "pyEDFlib>=0.1.36",
+]
+
+# URLs
+[project.urls]
+homepage = "https://github.com/AnthonyTechnologies/python-xltektools"
+repository = "https://github.com/AnthonyTechnologies/python-xltektools"
 documentation = "https://python-xltektools.readthedocs.io"
-packages = [
-    { include = "xltektools", from = "src" },
+changelog = "https://github.com/AnthonyTechnologies/python-xltektools/releases"
+
+# Optional Dependencies
+[project.optional-dependencies]
+dev = [
+    "coverage[toml]>=6.2",
+    "click>=8.0.3",
+    "furo>=2021.11.12",
+    "isort>=5.10.1",
+    "mypy>=0.930",
+    "nox>=2025.5.1",
+    "pep8-naming>=0.12.1",
+    "pip-audit>=2.10.0",
+    "pre-commit>=2.16.0",
+    "pre-commit-hooks>=4.1.0",
+    "Pygments>=2.10.0",
+    "pytest>=6.2.5",
+    "pytest-asyncio>=1.2.0",
+    "pyupgrade>=2.29.1",
+    "ruff>=0.14.14",
+    "sphinx>=4.3.2",
+    "sphinx-autobuild>=2021.3.14",
+    "sphinx-click>=3.0.2",
+    "sphinx-rtd-theme>=3.0.2",
+    "typeguard>=2.13.3",
+    "xdoctest[colors]>=0.15.10",
+    "myst-parser>=0.16.1",
 ]
-classifiers = [
-    "Development Status :: 3 - Alpha",
+jupyter = [
+    "jupyter>=1.1.1",
 ]
 
-[tool.poetry.urls]
-Changelog = "https://github.com/fonganthonym/python-xltektools/releases"
+# Project Build
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.dependencies]
-python = ">=3.10, <4.0"
-click = ">=8.0.1"
-hdf5objects = ">=0.5.0"
-cdfs = ">=0.3.0"
-mxbids = ">=0.2.1"
-numpy = ">=1.21.2, <2.0.0"
-pyEDFlib = ">=0.1.36"
 
-[tool.poetry.dev-dependencies]
-taskblocks = {git = "https://github.com/FongAnthonyM/python-taskblocks.git"}
-Pygments = ">=2.10.0"
-black = ">=21.10b0"
-coverage = {extras = ["toml"], version = ">=6.2"}
-darglint = ">=1.8.1"
-flake8 = ">=4.0.1"
-flake8-bandit = ">=2.1.2"
-flake8-bugbear = ">=21.9.2"
-flake8-docstrings = ">=1.6.0"
-flake8-rst-docstrings = ">=0.2.5"
-furo = ">=2021.11.12"
-isort = ">=5.10.1"
-mypy = ">=0.930"
-pep8-naming = ">=0.12.1"
-pre-commit = ">=2.16.0"
-pre-commit-hooks = ">=4.1.0"
-pytest = ">=6.2.5"
-pytest-asyncio = ">=0.25.3"
-pyupgrade = ">=2.29.1"
-safety = ">=1.10.3"
-sphinx = ">=4.3.2"
-sphinx-autobuild = ">=2021.3.14"
-sphinx-click = ">=3.0.2"
-typeguard = ">=2.13.3"
-xdoctest = {extras = ["colors"], version = ">=0.15.10"}
-myst-parser = {version = ">=0.16.1"}
+# Development Configurations
+# Ruff
+[tool.ruff]
+preview = true
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "examples",  # Has a separate lint
+    "tests",  # Has a separate lint
+    "tutorials",  # Has a separate lint
+    "docs",
+]
+line-length = 120
+indent-width = 4
 
-[tool.poetry.scripts]
-python-xltektools = "xltektools.__main__:main"
+[tool.ruff.lint]
+select = [
+    "YTT",
+    "ANN",
+    "ASYNC",
+    "S",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "EM",
+    "PIE",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "PTH",
+    "N",
+    "E",
+    "W",
+    "DOC",
+    "D",
+    "F",
+    "UP",
+    "RUF",
+]
+ignore = [
+    "ANN401",  # Disallow typing.Any
+    "ASYNC109", # Disallow defining timeouts in functions
+    "S101",  # Disallow assert
+    "S301",  # Disallow pickle
+    "S403",  # Disallow pickle, pickle.load, pickle.loads
+    "B024",  # Disallow abstract base class without abstract methods
+    "B027",  # Empty methods MUST be abstract methods
+    "A003",  # Disallow class attribute shadowing builtins
+    "A005",  # Disallow class attribute shadowing module-level variables
+    "RET505",  # Disallow unnecessary else after return statement
+    "N812",  # Lowercase imports must be casted "as" lowercase as well
+    "COM812",  # Trailing comma missing (the formatter will handle this)
+    "D205",  # 1 blank line required between summary line and description
+    "D401",  # Disallow imperative mood in docstring
+    "D415",  # The first line must end with a period
+    "F403",  # Disallow wildcard imports (from module import *)
+    "F405",  # Disallow names defined from star imports
+    "RUF012",  # Multable class attriubes must be annotated with ClassVar
+    "RUF067",  # Disallow content in __init__ (false positive for metadata)
+]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-[tool.coverage.paths]
-source = ["src", "*/site-packages"]
-tests = ["tests", "*/tests"]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
-[tool.coverage.run]
-branch = true
-source = ["xltektools", "tests"]
+[tool.ruff.format]
+indent-style = "space"  # Python convention, use spaces rather than tabs
+line-ending = "auto"  # Detect Line ending
+skip-magic-trailing-comma = false  # Comma used at the end of multi-line lists
+quote-style = "double"  # Like C++ double quotes for strings and single for char
+docstring-code-format = false  # Format code in docstrings
+docstring-code-line-length = "dynamic"
 
-[tool.coverage.report]
-show_missing = true
-fail_under = 100
-
+# isort [Import Sorting]
 [tool.isort]
 profile = "black"
-force_single_line = true
-lines_after_imports = 2
+line_length = 120
+multi_line_output = 3
+import_heading_stdlib = "Standard Libraries #"
+import_heading_thirdparty = "Third-Party Packages #"
+import_heading_firstparty = "Source Packages #"
+import_heading_localfolder = "Local Packages #"
 
+
+# MYPY
 [tool.mypy]
 strict = true
 warn_unreachable = true
@@ -82,13 +192,27 @@ pretty = true
 show_column_numbers = true
 show_error_codes = true
 show_error_context = true
+exclude = ["docs/"]
 
-[tool.black]
-line-length = 120
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
+# Pytest
 [tool.pytest.ini_options]
-asyncio_default_fixture_loop_scope = "session"
+minversion = "6.0"
+addopts = "--verbose"
+testpaths = ["tests"]
+pythonpath = ["src"]
+norecursedirs = ["docs", "*.egg-info", ".nox", ".git"]
+
+
+# Coverage
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/xltektools"]
+omit = ["*/header.py", "src/xltektools/testsuite/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100

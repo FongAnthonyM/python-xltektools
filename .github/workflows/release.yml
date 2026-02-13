@@ -12,24 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
       - name: Set up Python
-        uses: actions/setup-python@v2.3.2
+        uses: actions/setup-python@v4.7.1
         with:
-          python-version: "3.10"
+          python-version: "3.14"
 
-      - name: Upgrade pip
+      - name: Install uv
         run: |
-          pip install --constraint=.github/workflows/constraints.txt pip
-          pip --version
-
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
+          pip install uv
+          uv --version
 
       - name: Check if there is a parent commit
         id: check-parent-commit
@@ -42,38 +37,60 @@ jobs:
         uses: salsify/action-detect-and-tag-new-version@v2.0.1
         with:
           version-command: |
-            bash -o pipefail -c "poetry version | awk '{ print \$2 }'"
+            python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])"
+
+      - name: Install build dependencies
+        if: "! steps.check-version.outputs.tag"
+        run: |
+          uv pip install --system tomlkit
 
       - name: Bump version for developmental release
         if: "! steps.check-version.outputs.tag"
+        shell: python
         run: |
-          poetry version patch &&
-          version=$(poetry version | awk '{ print $2 }') &&
-          poetry version $version.dev.$(date +%s)
+          import tomlkit
+          import time
+          from pathlib import Path
+
+          path = Path("pyproject.toml")
+          with path.open("r", encoding="utf-8") as f:
+              data = tomlkit.load(f)
+
+          version = data["project"]["version"]
+          parts = version.split(".")
+          parts[-1] = str(int(parts[-1]) + 1)
+          new_base = ".".join(parts)
+
+          dev_version = f"{new_base}.dev.{int(time.time())}"
+
+          data["project"]["version"] = dev_version
+          with path.open("w", encoding="utf-8") as f:
+              tomlkit.dump(data, f)
+          print(f"Bumped version to {dev_version}")
 
       - name: Build package
         run: |
-          poetry build --ansi
+          uv build
 
       - name: Publish package on PyPI
         if: steps.check-version.outputs.tag
         uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
           user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
+          password: ${{  secrets.PYPI_TOKEN }}
 
       - name: Publish package on TestPyPI
         if: "! steps.check-version.outputs.tag"
         uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
           user: __token__
-          password: ${{ secrets.TEST_PYPI_TOKEN }}
+          password: ${{  secrets.TEST_PYPI_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
 
       - name: Publish the release notes
-        uses: release-drafter/release-drafter@v5.18.1
+        uses: release-drafter/release-drafter@v5.20.0
         with:
-          publish: ${{ steps.check-version.outputs.tag != '' }}
-          tag: ${{ steps.check-version.outputs.tag }}
+          publish: ${{  steps.check-version.outputs.tag != '' }}
+          tag: ${{  steps.check-version.outputs.tag }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{  secrets.GITHUB_TOKEN }}

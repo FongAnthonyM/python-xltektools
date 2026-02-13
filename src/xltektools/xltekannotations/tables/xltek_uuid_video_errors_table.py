@@ -1,14 +1,15 @@
 """xltek_uuid_video_errors_table.py
 A schema for a containing the XLSpike annotations in an XLTEK Study.
 """
-# Package Header #
-from ...header import *
-
 # Header #
-__author__ = __author__
-__credits__ = __credits__
-__maintainer__ = __maintainer__
-__email__ = __email__
+__package_name__ = "xltektools"
+
+__author__ = "Anthony Fong"
+__credits__ = ["Anthony Fong"]
+__copyright__ = "Copyright 2022, Anthony Fong"
+__license__ = "MIT"
+
+__version__ = "0.6.0"
 
 
 # Imports #

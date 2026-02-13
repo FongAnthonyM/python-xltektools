@@ -1,0 +1,102 @@
+# Ruff Configurations #
+# These are the ruff configurations for the local directory
+preview = true
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+line-length = 120
+indent-width = 4
+
+[lint]
+select = [
+    "YTT",
+    "ANN",
+    "ASYNC",
+    "S",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "EM",
+    "PIE",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "PTH",
+    "N",
+    "E",
+    "W",
+    "DOC",
+    "D",
+    "F",
+    "UP",
+    "RUF",
+]
+ignore = [
+    "ANN401",  # Disallow typing.Any
+    "S101",  # Disallow assert
+    "S301",  # Disallow pickle
+    "S403",  # Disallow pickle, pickle.load, pickle.loads
+    "B024",  # Disallow abstract base class without abstract methods
+    "B027",  # Empty methods MUST be abstract methods
+    "A003",  # Disallow class attribute shadowing builtins
+    "A005",  # Disallow class attribute shadowing module-level variables
+    "RET505",  # Disallow unnecessary else after return statement
+    "N801",  # Class name must use CapWords convention
+    "N812",  # Lowercase imports must be casted "as" lowercase as well
+    "DOC201",  # Returns must be documented in docstring
+    "DOC202",  # Disallow Returns in docstring if there are no Returns
+    "D205",  # 1 blank line required between summary line and description
+    "D401",  # Disallow imperative mood in docstring
+    "D415",  # The first line must end with a period
+    "F401",  # All imports must be used
+    "F403",  # Disallow wildcard imports (from module import *)
+    "F405",  # Disallow names defined from star imports
+    "PT028",  # Test function parameter has default argument
+    "PT011",  # pytest.raises() is too broad
+    "RUF012",  # Multable class attriubes must be annotated with ClassVar
+    "RUF067",  # Disallow content in __init__ (false positive for metadata)
+]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[lint.pydocstyle]
+convention = "google"
+
+[format]
+indent-style = "space"  # Python convention, use spaces rather than tabs
+line-ending = "auto"  # Detect Line ending
+skip-magic-trailing-comma = false  # Comma used at the end of multi-line lists
+quote-style = "double"  # Like C++ double quotes for strings and single for char
+docstring-code-format = false  # Format code in docstrings
+docstring-code-line-length = "dynamic"

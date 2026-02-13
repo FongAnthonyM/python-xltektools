@@ -1,27 +1,14 @@
-# -*- coding: utf-8 -*-
-"""
-.. _ecephys_tutorial:
+# Header #
+__package_name__ = "xltektools"
 
-Extracellular Electrophysiology Data
-====================================
+__author__ = "Anthony Fong"
+__credits__ = ["Anthony Fong"]
+__copyright__ = "Copyright 2022, Anthony Fong"
+__license__ = "MIT"
 
-The following tutorial describes storage of extracellular electrophysiology data in NWB.
-The workflow demonstrated here involves four main steps:
-
-1. Create the electrodes table
-2. Add acquired raw voltage data
-3. Add LFP data
-4. Add spike data
+__version__ = "0.6.0"
 
 
-This tutorial assumes that transforming data between these states is done by users--PyNWB does not provide
-analysis functionality. It is recommended to cover :ref:`basics` before this tutorial.
-
-The following examples will reference variables that may not be defined within the block they are used in. For
-clarity, we define them here:
-"""
-
-# sphinx_gallery_thumbnail_path = 'figures/gallery_thumbnails_ecephys.png'
 from datetime import datetime
 
 import numpy as np

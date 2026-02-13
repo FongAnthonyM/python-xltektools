@@ -1,0 +1,3 @@
+[submodule "docs/python-styleguide"]
+	path = docs/python-styleguide
+	url = https://github.com/AnthonyTechnologies/python-styleguide.git
